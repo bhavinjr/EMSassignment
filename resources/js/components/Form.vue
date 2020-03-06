@@ -23,7 +23,7 @@
             <div class="field">
               <label class="label">Select a birthdate</label>
                 <div class="control is-clearfix">
-                  <input v-model="birthdate" type="date" placeholder="Your email"class="input">
+                  <input v-model="birthdate" type="date" placeholder="Your email"class="input" required>
                 </div>
             </div>
 
@@ -101,7 +101,21 @@ export default {
         birthdate: this.birthdate,
         gender: this.gender,
       }
-      this.$emit('createData', data);
+      if(this.validCheck(data)) {
+        this.$emit('createData', data);
+      }
+    },
+    validCheck(data) {
+      for (var key in data) {
+        if (data[key] == null || data[key] == "" || typeof data[key] == undefined) {
+          this.$buefy.toast.open({
+              message: `Please fill all details`,
+              type: 'is-danger'
+          });
+          return false;
+        }
+      }
+      return true;      
     }
   }
 }

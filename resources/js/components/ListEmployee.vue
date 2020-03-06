@@ -64,8 +64,6 @@
 
 
 <script>
-	import Vuetable from 'vuetable-2'
-	import vmodal from 'vue-js-modal'
 	import modalForm from './Form';
 
     export default {
@@ -120,27 +118,24 @@
 	                    searchable: true,
 	                }
             	],
-    			sortOrder: [
-			        {
-			          field: "email",
-			          direction: "asc"
-			        }
-			    ],
 			    isComponentModalActive: false,
-			    showModal: false,
 			    isType: 'Create',
 			    formData: null
     		}
     	},
         components: {
-			Vuetable,
-			vmodal,
 			modalForm
 		},
 		methods: {
 			create() {
 				this.isComponentModalActive = true;
 				this.isType = 'Create';
+				this.formData = {
+					name: null,
+					email: null,
+					birthdate: null,
+					gender: null,
+				}
 			},
 			edit(data, rowId) {
 				this.isComponentModalActive = true;
@@ -160,7 +155,13 @@
 			},
 			createData(formData) {
 				const latestIndex = this.data.length;
-				this.data[latestIndex] = formData;
+				// this.data[latestIndex] = {...formData, id:latestIndex};
+				
+				this.$nextTick().then(() => {
+					this.data[latestIndex] = {...formData, id:latestIndex+1};
+					document.getElementsByClassName('input')[0].value = ' '
+				});
+				
 				this.closeModal()
 			},
 			closeModal() {
