@@ -13,4 +13,4 @@ $ php artisan key:generate
 In command line paste this command:
 ```shell
 php artisan config:cache
-``1
+```
